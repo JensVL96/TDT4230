@@ -452,7 +452,7 @@ void updateFrame(GLFWwindow* window) {
                     glm::translate(-cameraPosition);
 
     // Move and rotate various SceneNodes
-    boxNode->position = { 0, -10, -80 };
+    boxNode->position = { 0, -10, 0 };
 
     ballNode->position = ballPosition;
     ballNode->scale = glm::vec3(ballRadius);

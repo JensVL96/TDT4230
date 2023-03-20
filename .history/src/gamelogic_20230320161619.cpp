@@ -162,9 +162,8 @@ std::vector<std::string> skyboxFaces = {
     "../res/skybox/top.jpg",
     "../res/skybox/bottom.jpg",
     "../res/skybox/front.jpg",
-    "../res/skybox/negz.jpg",
+    "../res/skybox/Wood.jpg"
 };
-
 // unsigned int cubemapTexture = loadCubemap(faces); 
 
 
@@ -205,12 +204,20 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     Mesh box = cube(boxDimensions, glm::vec2(90), true, true);
     Mesh sphere = generateSphere(1.0, 40, 40);
     Mesh initText = generateTextGeometryBuffer("Click to start", textRatio, textWidth);
+    Mesh SB = generateTextGeometryBuffer("Score", 1.2, 0.5);
+    Mesh score = generateTextGeometryBuffer(std::to_string(singleScore), textRatio, textWidth);
+    Mesh HSB = generateTextGeometryBuffer("Highscore", 1.2, 1.0);
+    Mesh highScore = generateTextGeometryBuffer(inHighscore, textRatio, textWidth);
 
     // Fill buffers
     unsigned int ballVAO = generateBuffer(sphere);
     unsigned int boxVAO  = generateBuffer(box);
     unsigned int padVAO  = generateBuffer(pad);
     unsigned int textVAO  = generateBuffer(initText);
+    unsigned int SBVAO  = generateBuffer(SB);
+    unsigned int scoreVAO  = generateBuffer(score);
+    unsigned int HSBVAO  = generateBuffer(HSB);
+    unsigned int highScoreVAO  = generateBuffer(highScore);
 
     // Creates a number of light scene nodes based on the number of light sources
     int iter = 0;
@@ -240,12 +247,20 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     padNode  = createSceneNode(GEOMETRY);
     ballNode = createSceneNode(GEOMETRY);
     textNode = createSceneNode(GEOMETRY_2D);
+    SBNode = createSceneNode(GEOMETRY_2D);
+    scoreNode = createSceneNode(GEOMETRY_2D);
+    HSBNode = createSceneNode(GEOMETRY_2D);
+    highScoreNode = createSceneNode(GEOMETRY_2D);
 
 
     rootNode->children.push_back(boxNode);
     rootNode->children.push_back(padNode);
     rootNode->children.push_back(ballNode);
     rootNode->children.push_back(textNode);
+    rootNode->children.push_back(SBNode);
+    rootNode->children.push_back(scoreNode);
+    rootNode->children.push_back(HSBNode);
+    rootNode->children.push_back(highScoreNode);
 
     // Puts the light source scene nodes to the different objects
     padNode->children.push_back(lightSources[0].node);
@@ -253,6 +268,19 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
 
     // offset for the text
     textNode->position = glm::vec3(-textWidth/2, 0.0, 0.0);
+
+    // Transformations on the scoreboard logo, current score, high score logo and current high score
+    SBNode->scale = glm::vec3(0.5, 0.5, 0.7);
+    SBNode->position = glm::vec3(0.75, 0.15, 0.0);
+
+    scoreNode->scale = glm::vec3(0.1, 0.1, 1.0);
+    scoreNode->position = glm::vec3(textWidth+0.1, 0.0, 0.0);
+
+    HSBNode->scale = glm::vec3(0.5, 0.5, 0.7);
+    HSBNode->position = glm::vec3(0.5, 0.6, 0.0);
+
+    highScoreNode->scale = glm::vec3(0.1, 0.2, 1.0);
+    highScoreNode->position = glm::vec3(textWidth, 0.45, 0.0);
 
     // Assigns the VAO and IDs to the different scene nodes
     boxNode->vertexArrayObjectID  = boxVAO;
@@ -271,6 +299,22 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     textNode->vertexArrayObjectID = textVAO;
     textNode->VAOIndexCount       = initText.indices.size();
     textNode->textureID           = ll.ID;
+
+    SBNode->vertexArrayObjectID = SBVAO;
+    SBNode->VAOIndexCount       = SB.indices.size();
+    SBNode->textureID           = ll.ID;
+
+    scoreNode->vertexArrayObjectID = scoreVAO;
+    scoreNode->VAOIndexCount       = score.indices.size();
+    scoreNode->textureID           = ll.ID;
+
+    HSBNode->vertexArrayObjectID = HSBVAO;
+    HSBNode->VAOIndexCount       = HSB.indices.size();
+    HSBNode->textureID           = ll.ID;
+
+    highScoreNode->vertexArrayObjectID = highScoreVAO;
+    highScoreNode->VAOIndexCount       = highScore.indices.size();
+    highScoreNode->textureID           = ll.ID;
 
     getTimeDeltaSeconds();
 
@@ -442,7 +486,7 @@ void updateFrame(GLFWwindow* window) {
     }
     glm::vec3 cameraPosition = glm::vec3(0, 2, -20);
 
-    boxNode->rotation.y += timeDelta / 10;
+
 
     // Some math to make the camera move in a nice way
     float lookRotation = -0.6 / (1 + exp(-5 * (padPositionX-0.5))) + 0.3;
@@ -559,7 +603,7 @@ void renderNode(SceneNode* node) {
             if(node->vertexArrayObjectID != -1) {
                 skyboxshader->activate();
                 // Sends the model to the shader
-                glUniformMatrix3fv(3, 1, GL_FALSE, glm::value_ptr(glm::mat3(node->currentTransformationMatrix)));
+                glUniformMatrix4fv(3, 1, GL_FALSE, glm::value_ptr(node->currentTransformationMatrix));
                 // Sends the view and projection to the shader
                 glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
                 glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
@@ -567,7 +611,7 @@ void renderNode(SceneNode* node) {
                 glUniform1i(10, 0); // 3D geometry
                 glUniform1i(11, 0); // normal mapped
                 glBindVertexArray(node->vertexArrayObjectID);
-                glBindTextureUnit(2, node->textureID);
+                glBindTextureUnit(GL_TEXTURE_CUBE_MAP, node->textureID);
                 glUniform1i(12, 1);
                 glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
                 shader->activate();

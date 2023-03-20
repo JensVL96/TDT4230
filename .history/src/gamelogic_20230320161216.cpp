@@ -61,8 +61,6 @@ float textWidth = 0.8;
 // These are heap allocated, because they should not be initialised at the start of the program
 sf::SoundBuffer* buffer;
 Gloom::Shader* shader;
-Gloom::Shader* skyboxshader;
-
 sf::Sound* sound;
 
 const glm::vec3 boxDimensions(180, 90, 90);
@@ -124,29 +122,22 @@ glm::vec3 green = glm::vec3(0.0, 1.0, 0.0);
 glm::vec3 blue = glm::vec3(0.0, 0.0, 1.0);
 glm::vec3 white = glm::vec3(1.0, 1.0, 1.0);
 
-unsigned int loadCubemap(std::vector<std::string> faces)
-{
-    unsigned int textureID;
+unsigned int loadCubemap(std::string path) {
+    GLuint textureID;
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
+    std::string files[6] = {"right.png", "let.png", "top.png", "bottom.png", "front.png", "wood.png"};
+
+
     int width, height, nrChannels;
-    for (unsigned int i = 0; i < faces.size(); i++)
+    for (unsigned int i = 0; i < 6; i++)
     {
-        unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-        if (data)
-        {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
-                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
+        auto texture = loadPNGFile(path + files[i]);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
+                         0, GL_RGB, texture.width, texture.height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture.pixels.data()
             );
-            stbi_image_free(data);
         }
-        else
-        {
-            std::cout << "Cubemap tex failed to load at path: " << faces[i] << std::endl;
-            stbi_image_free(data);
-        }
-    }
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -156,15 +147,14 @@ unsigned int loadCubemap(std::vector<std::string> faces)
     return textureID;
 }
 
-std::vector<std::string> skyboxFaces = {
-    "../res/skybox/right.jpg",
-    "../res/skybox/left.jpg",
-    "../res/skybox/top.jpg",
-    "../res/skybox/bottom.jpg",
-    "../res/skybox/front.jpg",
-    "../res/skybox/negz.jpg",
+std::vector<std::string> faces = {
+    "../res/textures/right.jpg",
+    "../res/textures/left.jpg",
+    "../res/textures/top.jpg",
+    "../res/textures/bottom.jpg",
+    "../res/textures/front.jpg",
+    "../res/textures/Wood.jpg"
 };
-
 // unsigned int cubemapTexture = loadCubemap(faces); 
 
 
@@ -183,9 +173,8 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     shader->makeBasicShader("../res/shaders/simple.vert", "../res/shaders/simple.frag");
     shader->activate();
 
-    skyboxshader = new Gloom::Shader();
-    skyboxshader->makeBasicShader("../res/shaders/skybox.vert", "../res/shaders/skybox.frag");
-    skyboxshader->activate();
+
+    // PNGImage sky_left = loadPNGFile("../res/textures/left.png");
 
     // Loads the textures from the resource folder
     PNGImage ll = loadPNGFile("../res/textures/charmap.png");
@@ -205,12 +194,20 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     Mesh box = cube(boxDimensions, glm::vec2(90), true, true);
     Mesh sphere = generateSphere(1.0, 40, 40);
     Mesh initText = generateTextGeometryBuffer("Click to start", textRatio, textWidth);
+    Mesh SB = generateTextGeometryBuffer("Score", 1.2, 0.5);
+    Mesh score = generateTextGeometryBuffer(std::to_string(singleScore), textRatio, textWidth);
+    Mesh HSB = generateTextGeometryBuffer("Highscore", 1.2, 1.0);
+    Mesh highScore = generateTextGeometryBuffer(inHighscore, textRatio, textWidth);
 
     // Fill buffers
     unsigned int ballVAO = generateBuffer(sphere);
     unsigned int boxVAO  = generateBuffer(box);
     unsigned int padVAO  = generateBuffer(pad);
     unsigned int textVAO  = generateBuffer(initText);
+    unsigned int SBVAO  = generateBuffer(SB);
+    unsigned int scoreVAO  = generateBuffer(score);
+    unsigned int HSBVAO  = generateBuffer(HSB);
+    unsigned int highScoreVAO  = generateBuffer(highScore);
 
     // Creates a number of light scene nodes based on the number of light sources
     int iter = 0;
@@ -240,12 +237,20 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     padNode  = createSceneNode(GEOMETRY);
     ballNode = createSceneNode(GEOMETRY);
     textNode = createSceneNode(GEOMETRY_2D);
+    SBNode = createSceneNode(GEOMETRY_2D);
+    scoreNode = createSceneNode(GEOMETRY_2D);
+    HSBNode = createSceneNode(GEOMETRY_2D);
+    highScoreNode = createSceneNode(GEOMETRY_2D);
 
 
     rootNode->children.push_back(boxNode);
     rootNode->children.push_back(padNode);
     rootNode->children.push_back(ballNode);
     rootNode->children.push_back(textNode);
+    rootNode->children.push_back(SBNode);
+    rootNode->children.push_back(scoreNode);
+    rootNode->children.push_back(HSBNode);
+    rootNode->children.push_back(highScoreNode);
 
     // Puts the light source scene nodes to the different objects
     padNode->children.push_back(lightSources[0].node);
@@ -254,12 +259,25 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     // offset for the text
     textNode->position = glm::vec3(-textWidth/2, 0.0, 0.0);
 
+    // Transformations on the scoreboard logo, current score, high score logo and current high score
+    SBNode->scale = glm::vec3(0.5, 0.5, 0.7);
+    SBNode->position = glm::vec3(0.75, 0.15, 0.0);
+
+    scoreNode->scale = glm::vec3(0.1, 0.1, 1.0);
+    scoreNode->position = glm::vec3(textWidth+0.1, 0.0, 0.0);
+
+    HSBNode->scale = glm::vec3(0.5, 0.5, 0.7);
+    HSBNode->position = glm::vec3(0.5, 0.6, 0.0);
+
+    highScoreNode->scale = glm::vec3(0.1, 0.2, 1.0);
+    highScoreNode->position = glm::vec3(textWidth, 0.45, 0.0);
+
     // Assigns the VAO and IDs to the different scene nodes
     boxNode->vertexArrayObjectID  = boxVAO;
     boxNode->VAOIndexCount        = box.indices.size();
     // boxNode->textureID            = brick_col.ID;
     // boxNode->normalMapID          = brick_nrm.ID;
-    boxNode->textureID            = loadCubemap(skyboxFaces);
+    boxNode->textureID            = loadCubemap("../res/textures/");
     boxNode->isSkybox             = true;
 
     padNode->vertexArrayObjectID  = padVAO;
@@ -271,6 +289,22 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     textNode->vertexArrayObjectID = textVAO;
     textNode->VAOIndexCount       = initText.indices.size();
     textNode->textureID           = ll.ID;
+
+    SBNode->vertexArrayObjectID = SBVAO;
+    SBNode->VAOIndexCount       = SB.indices.size();
+    SBNode->textureID           = ll.ID;
+
+    scoreNode->vertexArrayObjectID = scoreVAO;
+    scoreNode->VAOIndexCount       = score.indices.size();
+    scoreNode->textureID           = ll.ID;
+
+    HSBNode->vertexArrayObjectID = HSBVAO;
+    HSBNode->VAOIndexCount       = HSB.indices.size();
+    HSBNode->textureID           = ll.ID;
+
+    highScoreNode->vertexArrayObjectID = highScoreVAO;
+    highScoreNode->VAOIndexCount       = highScore.indices.size();
+    highScoreNode->textureID           = ll.ID;
 
     getTimeDeltaSeconds();
 
@@ -442,7 +476,7 @@ void updateFrame(GLFWwindow* window) {
     }
     glm::vec3 cameraPosition = glm::vec3(0, 2, -20);
 
-    boxNode->rotation.y += timeDelta / 10;
+
 
     // Some math to make the camera move in a nice way
     float lookRotation = -0.6 / (1 + exp(-5 * (padPositionX-0.5))) + 0.3;
@@ -557,9 +591,8 @@ void renderNode(SceneNode* node) {
             break;
         case TEXTURE_CUBE_MAP: 
             if(node->vertexArrayObjectID != -1) {
-                skyboxshader->activate();
                 // Sends the model to the shader
-                glUniformMatrix3fv(3, 1, GL_FALSE, glm::value_ptr(glm::mat3(node->currentTransformationMatrix)));
+                glUniformMatrix4fv(3, 1, GL_FALSE, glm::value_ptr(node->currentTransformationMatrix));
                 // Sends the view and projection to the shader
                 glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
                 glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
@@ -567,10 +600,9 @@ void renderNode(SceneNode* node) {
                 glUniform1i(10, 0); // 3D geometry
                 glUniform1i(11, 0); // normal mapped
                 glBindVertexArray(node->vertexArrayObjectID);
-                glBindTextureUnit(2, node->textureID);
+                glBindTextureUnit(GL_TEXTURE_CUBE_MAP, node->textureID);
                 glUniform1i(12, 1);
                 glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
-                shader->activate();
             }
         break;
     }
