@@ -1,0 +1,11 @@
+lib/SFML/src/SFML/Audio/CMakeFiles/sfml-audio.dir/SoundSource.cpp.o: \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundSource.cpp \
+ /usr/include/stdc-predef.h \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/include/SFML/Audio/SoundSource.hpp \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/include/SFML/Audio/Export.hpp \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/include/SFML/Config.hpp \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/include/SFML/Audio/AlResource.hpp \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/include/SFML/System/Vector3.hpp \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/include/SFML/System/Vector3.inl \
+ /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/ALCheck.hpp \
+ /usr/include/AL/al.h /usr/include/AL/alc.h

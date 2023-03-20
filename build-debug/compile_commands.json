@@ -1,0 +1,327 @@
+[
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/gamelogic.cpp.o -c /home/jens/Documents/TDT4230/Project/src/gamelogic.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/gamelogic.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/main.cpp.o -c /home/jens/Documents/TDT4230/Project/src/main.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/main.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/program.cpp.o -c /home/jens/Documents/TDT4230/Project/src/program.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/program.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/sceneGraph.cpp.o -c /home/jens/Documents/TDT4230/Project/src/sceneGraph.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/sceneGraph.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/utilities/glfont.cpp.o -c /home/jens/Documents/TDT4230/Project/src/utilities/glfont.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/utilities/glfont.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/utilities/glutils.cpp.o -c /home/jens/Documents/TDT4230/Project/src/utilities/glutils.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/utilities/glutils.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/utilities/imageLoader.cpp.o -c /home/jens/Documents/TDT4230/Project/src/utilities/imageLoader.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/utilities/imageLoader.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/utilities/shapes.cpp.o -c /home/jens/Documents/TDT4230/Project/src/utilities/shapes.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/utilities/shapes.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/src/utilities/timeutils.cpp.o -c /home/jens/Documents/TDT4230/Project/src/utilities/timeutils.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/src/utilities/timeutils.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/cc -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include -g -o CMakeFiles/glowbox.dir/lib/glad/src/glad.c.o -c /home/jens/Documents/TDT4230/Project/lib/glad/src/glad.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glad/src/glad.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug",
+  "command": "/usr/bin/c++ -DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\\\"/home/jens/Documents/TDT4230/Project\\\" -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/src -I/home/jens/Documents/TDT4230/Project/lib/glad/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/lodepng -I/home/jens/Documents/TDT4230/Project/lib/glm -I/home/jens/Documents/TDT4230/Project/lib/stb -I/home/jens/Documents/TDT4230/Project/lib/arrrgh -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/glowbox.dir/lib/lodepng/lodepng.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/lodepng/lodepng.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/lodepng/lodepng.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/context.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/context.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/context.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/init.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/init.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/init.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/input.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/input.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/input.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/monitor.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/monitor.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/monitor.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/vulkan.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/vulkan.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/vulkan.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/window.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/window.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/window.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/x11_init.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/x11_init.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/x11_init.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/x11_monitor.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/x11_monitor.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/x11_window.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/x11_window.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/x11_window.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/xkb_unicode.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/xkb_unicode.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/posix_time.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/posix_time.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/posix_time.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/posix_thread.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/posix_thread.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/posix_thread.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/glx_context.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/glx_context.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/glx_context.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/egl_context.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/egl_context.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/egl_context.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/osmesa_context.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/osmesa_context.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src",
+  "command": "/usr/bin/cc -D_GLFW_USE_CONFIG_H -I/home/jens/Documents/TDT4230/Project/lib/glfw/include -I/home/jens/Documents/TDT4230/Project/lib/glfw/src -I/home/jens/Documents/TDT4230/Project/build-debug/lib/glfw/src -g -fPIC -Wall -o CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/jens/Documents/TDT4230/Project/lib/glfw/src/linux_joystick.c",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/glfw/src/linux_joystick.c"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Clock.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Clock.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Clock.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Err.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Err.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Err.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Lock.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Lock.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Lock.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Mutex.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Mutex.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Mutex.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Sleep.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Sleep.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Sleep.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/String.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/String.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/String.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Thread.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Thread.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Thread.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/ThreadLocal.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/ThreadLocal.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/ThreadLocal.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Time.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Time.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Time.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/FileInputStream.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/FileInputStream.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/FileInputStream.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/MemoryInputStream.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/MemoryInputStream.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/MemoryInputStream.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Unix/ClockImpl.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/ClockImpl.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/ClockImpl.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Unix/MutexImpl.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/MutexImpl.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/MutexImpl.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Unix/SleepImpl.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/SleepImpl.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/SleepImpl.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Unix/ThreadImpl.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/ThreadImpl.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/ThreadImpl.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/System",
+  "command": "/usr/bin/c++ -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-system.dir/Unix/ThreadLocalImpl.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/ThreadLocalImpl.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/System/Unix/ThreadLocalImpl.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/ALCheck.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/ALCheck.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/ALCheck.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/AlResource.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/AlResource.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/AlResource.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/AudioDevice.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/AudioDevice.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/AudioDevice.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/Listener.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/Listener.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/Listener.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/Music.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/Music.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/Music.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/Sound.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/Sound.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/Sound.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundBuffer.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundBuffer.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundBuffer.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundBufferRecorder.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundBufferRecorder.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundBufferRecorder.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/InputSoundFile.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/InputSoundFile.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/InputSoundFile.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/OutputSoundFile.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/OutputSoundFile.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/OutputSoundFile.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundRecorder.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundRecorder.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundRecorder.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundSource.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundSource.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundSource.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundStream.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundStream.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundStream.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundFileFactory.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileFactory.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileFactory.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundFileReaderFlac.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileReaderFlac.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileReaderFlac.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundFileReaderOgg.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileReaderOgg.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileReaderOgg.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundFileReaderWav.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileReaderWav.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileReaderWav.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundFileWriterFlac.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileWriterFlac.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileWriterFlac.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundFileWriterOgg.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileWriterOgg.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileWriterOgg.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/SFML/src/SFML/Audio",
+  "command": "/usr/bin/c++ -DFLAC__NO_DLL -DOV_EXCLUDE_STATIC_CALLBACKS -DSFML_STATIC -I/home/jens/Documents/TDT4230/Project/lib/SFML/include -I/home/jens/Documents/TDT4230/Project/lib/SFML/src -I/usr/include/AL  -Wall -Wextra -Wpedantic -g -fvisibility=hidden -std=gnu++14 -o CMakeFiles/sfml-audio.dir/SoundFileWriterWav.cpp.o -c /home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileWriterWav.cpp",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/SFML/src/SFML/Audio/SoundFileWriterWav.cpp"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/fmt",
+  "command": "/usr/bin/c++  -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/fmt.dir/src/format.cc.o -c /home/jens/Documents/TDT4230/Project/lib/fmt/src/format.cc",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/fmt/src/format.cc"
+},
+{
+  "directory": "/home/jens/Documents/TDT4230/Project/build-debug/lib/fmt",
+  "command": "/usr/bin/c++  -I/home/jens/Documents/TDT4230/Project/lib/fmt/include  -Wall -Wextra -Wpedantic -g -std=gnu++14 -o CMakeFiles/fmt.dir/src/os.cc.o -c /home/jens/Documents/TDT4230/Project/lib/fmt/src/os.cc",
+  "file": "/home/jens/Documents/TDT4230/Project/lib/fmt/src/os.cc"
+}
+]
