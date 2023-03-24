@@ -39,14 +39,12 @@ unsigned int currentKeyFrame = 0;
 unsigned int previousKeyFrame = 0;
 
 SceneNode* rootNode;
+SceneNode* skyBoxNode;
 SceneNode* boxNode;
 SceneNode* ballNode;
-SceneNode* padNode;
+SceneNode* wallNode;
 SceneNode* textNode;
-SceneNode* SBNode;
-SceneNode* scoreNode;
-SceneNode* HSBNode;
-SceneNode* highScoreNode;
+SceneNode* icicleNode;
 double ballRadius = 3.0f;
 
 // Current and high score values
@@ -66,7 +64,8 @@ Gloom::Shader* skyboxshader;
 sf::Sound* sound;
 
 const glm::vec3 boxDimensions(180, 90, 90);
-const glm::vec3 padDimensions(30, 3, 40);
+const glm::vec3 padDimensions(180, 180, 40);
+// const glm::vec3 padDimensions(180, 180, 1);
 
 glm::vec3 ballPosition(0, ballRadius + padDimensions.y, boxDimensions.z / 2);
 glm::vec3 ballDirection(1, 1, 0.2f);
@@ -201,16 +200,19 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     fclose(HIGHSCORES);
 
     // Create meshes
-    Mesh pad = cube(padDimensions, glm::vec2(30, 40), true);
+    Mesh wall = cube(padDimensions, glm::vec2(30, 40), true);
     Mesh box = cube(boxDimensions, glm::vec2(90), true, true);
     Mesh sphere = generateSphere(1.0, 40, 40);
     Mesh initText = generateTextGeometryBuffer("Click to start", textRatio, textWidth);
+    Mesh icicle = loadObj("../res/object/istapp.obj");
 
     // Fill buffers
     unsigned int ballVAO = generateBuffer(sphere);
     unsigned int boxVAO  = generateBuffer(box);
-    unsigned int padVAO  = generateBuffer(pad);
+    unsigned int wallVAO  = generateBuffer(wall);
     unsigned int textVAO  = generateBuffer(initText);
+    unsigned int icicleVAO  = generateBuffer(icicle);
+
 
     // Creates a number of light scene nodes based on the number of light sources
     int iter = 0;
@@ -236,34 +238,43 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
 
     // Construct scene
     rootNode = createSceneNode(GEOMETRY);
-    boxNode  = createSceneNode(TEXTURE_CUBE_MAP);
-    padNode  = createSceneNode(GEOMETRY);
+    skyBoxNode  = createSceneNode(TEXTURE_CUBE_MAP);
+
+    boxNode  = createSceneNode(GEOMETRY);
+    wallNode  = createSceneNode(GEOMETRY);
     ballNode = createSceneNode(GEOMETRY);
     textNode = createSceneNode(GEOMETRY_2D);
+    icicleNode = createSceneNode(GEOMETRY);
 
+    rootNode->children.push_back(skyBoxNode);
+    skyBoxNode->children.push_back(wallNode);
 
     rootNode->children.push_back(boxNode);
-    rootNode->children.push_back(padNode);
     rootNode->children.push_back(ballNode);
     rootNode->children.push_back(textNode);
+    rootNode->children.push_back(icicleNode);
 
     // Puts the light source scene nodes to the different objects
-    padNode->children.push_back(lightSources[0].node);
+    // wallNode->children.push_back(lightSources[0].node);
     // rootNode->children.push_back(lightSources[0].node);  // Root node if aiming to put in the box
 
     // offset for the text
     textNode->position = glm::vec3(-textWidth/2, 0.0, 0.0);
 
     // Assigns the VAO and IDs to the different scene nodes
+    skyBoxNode->vertexArrayObjectID  = boxVAO;
+    skyBoxNode->VAOIndexCount        = box.indices.size();
+    skyBoxNode->textureID            = loadCubemap(skyboxFaces);
+    skyBoxNode->isSkybox             = true;
+
     boxNode->vertexArrayObjectID  = boxVAO;
     boxNode->VAOIndexCount        = box.indices.size();
-    // boxNode->textureID            = brick_col.ID;
-    // boxNode->normalMapID          = brick_nrm.ID;
-    boxNode->textureID            = loadCubemap(skyboxFaces);
-    boxNode->isSkybox             = true;
+    boxNode->textureID            = brick_col.ID;
+    boxNode->normalMapID          = brick_nrm.ID;
 
-    padNode->vertexArrayObjectID  = padVAO;
-    padNode->VAOIndexCount        = pad.indices.size();
+
+    wallNode->vertexArrayObjectID  = wallVAO;
+    wallNode->VAOIndexCount        = wall.indices.size();
 
     ballNode->vertexArrayObjectID = ballVAO;
     ballNode->VAOIndexCount       = sphere.indices.size();
@@ -271,6 +282,10 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     textNode->vertexArrayObjectID = textVAO;
     textNode->VAOIndexCount       = initText.indices.size();
     textNode->textureID           = ll.ID;
+
+    icicleNode->vertexArrayObjectID = icicleVAO;
+    icicleNode->VAOIndexCount       = icicle.indices.size();
+    // icicleNode->textureID           = ll.ID;
 
     getTimeDeltaSeconds();
 
@@ -442,7 +457,7 @@ void updateFrame(GLFWwindow* window) {
     }
     glm::vec3 cameraPosition = glm::vec3(0, 2, -20);
 
-    boxNode->rotation.y += timeDelta / 10;
+    skyBoxNode->rotation.y += timeDelta / 10;
 
     // Some math to make the camera move in a nice way
     float lookRotation = -0.6 / (1 + exp(-5 * (padPositionX-0.5))) + 0.3;
@@ -458,7 +473,7 @@ void updateFrame(GLFWwindow* window) {
     ballNode->scale = glm::vec3(ballRadius);
     ballNode->rotation = { 0, totalElapsedTime*2, 0 };
 
-    padNode->position  = {
+    wallNode->position  = {
         boxNode->position.x - (boxDimensions.x/2) + (padDimensions.x/2) + (1 - padPositionX) * (boxDimensions.x - padDimensions.x),
         boxNode->position.y - (boxDimensions.y/2) + (padDimensions.y/2),
         boxNode->position.z - (boxDimensions.z/2) + (padDimensions.z/2) + (1 - padPositionZ) * (boxDimensions.z - padDimensions.z)
@@ -558,6 +573,7 @@ void renderNode(SceneNode* node) {
         case TEXTURE_CUBE_MAP: 
             if(node->vertexArrayObjectID != -1) {
                 skyboxshader->activate();
+                glDepthMask(GL_FALSE);
                 // Sends the model to the shader
                 glUniformMatrix3fv(3, 1, GL_FALSE, glm::value_ptr(glm::mat3(node->currentTransformationMatrix)));
                 // Sends the view and projection to the shader
@@ -568,9 +584,10 @@ void renderNode(SceneNode* node) {
                 glUniform1i(11, 0); // normal mapped
                 glBindVertexArray(node->vertexArrayObjectID);
                 glBindTextureUnit(2, node->textureID);
-                glUniform1i(12, 1);
+                //glUniform1i(12, 1);
                 glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
                 shader->activate();
+                glDepthMask(GL_TRUE);
             }
         break;
     }

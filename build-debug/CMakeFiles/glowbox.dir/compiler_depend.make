@@ -3205,7 +3205,33 @@ CMakeFiles/glowbox.dir/src/utilities/shapes.cpp.o: ../src/utilities/shapes.cpp \
   ../lib/glm/glm/detail/type_half.hpp \
   ../lib/glm/glm/detail/type_half.inl \
   ../lib/glm/glm/integer.hpp \
-  ../lib/glm/glm/detail/func_integer.inl
+  ../lib/glm/glm/detail/func_integer.inl \
+  ../lib/tinyobjloader/tiny_obj_loader.h \
+  /usr/include/c++/9/map \
+  /usr/include/c++/9/bits/stl_tree.h \
+  /usr/include/c++/9/ext/aligned_buffer.h \
+  /usr/include/c++/9/bits/stl_map.h \
+  /usr/include/c++/9/tuple \
+  /usr/include/c++/9/utility \
+  /usr/include/c++/9/bits/stl_relops.h \
+  /usr/include/c++/9/array \
+  /usr/include/c++/9/bits/uses_allocator.h \
+  /usr/include/c++/9/bits/invoke.h \
+  /usr/include/c++/9/bits/stl_multimap.h \
+  /usr/include/c++/9/bits/erase_if.h \
+  /usr/include/c++/9/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /usr/include/c++/9/fstream \
+  /usr/include/c++/9/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h \
+  /usr/include/c++/9/bits/fstream.tcc \
+  /usr/include/c++/9/set \
+  /usr/include/c++/9/bits/stl_set.h \
+  /usr/include/c++/9/bits/stl_multiset.h \
+  /usr/include/c++/9/sstream \
+  /usr/include/c++/9/bits/sstream.tcc
 
 CMakeFiles/glowbox.dir/src/utilities/timeutils.cpp.o: ../src/utilities/timeutils.cpp \
   /usr/include/stdc-predef.h \
@@ -3255,6 +3281,10 @@ CMakeFiles/glowbox.dir/src/utilities/timeutils.cpp.o: ../src/utilities/timeutils
 
 
 ../src/utilities/timeutils.cpp:
+
+/usr/include/c++/9/bits/stl_multimap.h:
+
+/usr/include/c++/9/map:
 
 ../src/utilities/shapes.cpp:
 
@@ -3662,6 +3692,8 @@ CMakeFiles/glowbox.dir/src/utilities/timeutils.cpp.o: ../src/utilities/timeutils
 
 ../lib/glm/glm/ext/matrix_float2x4.hpp:
 
+/usr/include/c++/9/bits/stl_map.h:
+
 ../lib/glm/glm/gtx/spline.inl:
 
 ../lib/glm/glm/vec3.hpp:
@@ -3815,6 +3847,8 @@ CMakeFiles/glowbox.dir/src/utilities/timeutils.cpp.o: ../src/utilities/timeutils
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/c++/9/bits/range_access.h:
+
+../lib/tinyobjloader/tiny_obj_loader.h:
 
 /usr/include/c++/9/exception:
 

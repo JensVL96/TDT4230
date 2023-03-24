@@ -1,6 +1,9 @@
 #include <iostream>
 #include "shapes.h"
 
+#define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
+#include "../../lib/tinyobjloader/tiny_obj_loader.h"
+
 #ifndef M_PI
 #define M_PI 3.14159265359f
 #endif
@@ -205,39 +208,51 @@ Mesh generateSphere(float sphereRadius, int slices, int layers) {
     mesh.textureCoordinates = uvs;
     return mesh;
 }
+// time + coordinate (u+v)
+// current time uniform (starten av programmet i sekunder)
+// uv coordinater + texture
+Mesh loadObj(std::string inputfile) {
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+  
+    std::string err;
+    std::string warning;
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warning, &err, inputfile.c_str(), nullptr, false);
+    
+    if (!err.empty()) { // `err` may contain warning message.
+        std::cerr << err << std::endl;
+    }
 
-// Mesh generateCone(float coneRadius, float length, int slices) {
+    if (!ret) {exit(1);}
 
-//     std::vector<glm::vec3> vertices;
-//     std::vector<glm::vec3> normals;
-//     std::vector<unsigned int> indices;
-//     std::vector<glm::vec2> uvs;
+    Mesh mesh;
+    if (shapes.size() > 1 || shapes.size() == 0) {
+        std::cerr << err << std::endl;
+        return mesh;
+    }
 
-//     float slices_step = 2 * M_PI / slices;
-//     float sliceAngle;
+    const auto &shape = shapes.front();
+    std::cout << "loaded object" << shape.name << "source" << inputfile << std::endl;
+    const auto &tmesh = shape.mesh;
 
-//     for(int i = 0; i < slices; i++) {
-//         sliceAngle = i * slices_step;
-//         vertices.push_back(cos(sliceAngle));
-//         vertices.push_back(sin(sliceAngle));
-//         vertices.push_back(0);
-//     }
+    for (const auto idx : tmesh.indices) {
+        mesh.indices.push_back(mesh.indices.size());
+        glm::vec3 vertex;
+        vertex.x = attrib.vertices.at(3*idx.vertex_index+0);
+        vertex.y = attrib.vertices.at(3*idx.vertex_index+1);
+        vertex.z = attrib.vertices.at(3*idx.vertex_index+2);
+        mesh.vertices.push_back(vertex);
+        glm::vec3 normal;
+        normal.x = attrib.normals.at(3*idx.normal_index+0);
+        normal.y = attrib.normals.at(3*idx.normal_index+1);
+        normal.z = attrib.normals.at(3*idx.normal_index+2);
+        mesh.normals.push_back(normal);
+        glm::vec3 uv;
+        uv.x = attrib.texcoords.at(2*idx.texcoord_index+0);
+        uv.y = attrib.texcoords.at(2*idx.texcoord_index+1);
+        mesh.textureCoordinates.push_back(uv);
+    }
 
-//     // for (float ang = 0; ang < 360; ang++) {
-//     //     points[x+y*4+z*2] = glm::vec3(x + coneRadius*cos((ang*M_PI)/180), y + sin((ang*M_PI)/180), z);
-//     // }
-
-//     // Constructing the sphere one layer at a time
-//     for (int layer = 0; layer < slices; layer++) {
-//         int nextLayer = layer + 1;
-
-//     Mesh mesh;
-//     mesh.vertices = vertices;
-//     mesh.normals = normals;
-//     mesh.indices = indices;
-//     mesh.textureCoordinates = uvs;
-//     return mesh;
-//     }
-// }
-
-// int slices(float newRadius);
+    return mesh;
+}
