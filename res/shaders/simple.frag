@@ -5,7 +5,6 @@ in layout(location = 1) vec2 textureCoordinates;
 in layout(location = 2) vec3 vertexPos;
 in layout(location = 3) mat3 TBN;
 
-uniform layout(location = 9) vec3 ballPos;
 uniform layout(location = 10) int renderText;
 uniform layout(location = 11) int hasTexture;
 
@@ -96,32 +95,10 @@ void main()
             vec3 reflected = reflect(-lightDirection, NN);
             float specularIntensity = pow(max(dot(reflected, specularDirection), 0.0), shininess);
 
-
-            // shadows hard_light
-            vec3 fragToBall = ballPos - vertexPos;
-            vec3 fragToLight = lightPos - vertexPos;
-            vec3 rejection = reject(fragToBall, fragToLight);
-            // rules for casting a shadow
-            bool castShadow = length(rejection) < radius                        // light only when the recjection vector is smaller than the radius
-                        && length(fragToLight) > length(fragToBall) - radius    // light source closer to fragment than ball (minus the radius of the ball)
-                        && dot(fragToLight, fragToBall) > 0.0;                  // vectors shouldn't point in opposite directions
-
-
-            // soft edge on shadows
-            float hard_light = length(rejection);
-            hard_light = (hard_light - light_soft_inner) / (light_soft_outer - light_soft_inner);
-            hard_light = max(0, hard_light);
-            hard_light = min(1, hard_light);
-            // Rules for when to apply soft shadow
-            if (length(fragToLight) < length(fragToBall) - radius || dot(fragToLight, fragToBall) <= 0.0)
-                hard_light = 1.0;
-
-
             // Applies diffuse, specular, light intensity and soft/ hard light when it doesn't apply shadows
-            if(!castShadow) {
-                finalColor += diffuseIntensity * diffuse * L * hard_light;
-                finalColor += specularIntensity * specular * L * hard_light;
-            }
+            
+            finalColor += diffuseIntensity * diffuse * L;
+            finalColor += specularIntensity * specular * L;
         }
 
         // Adds extra components to the final ligth color

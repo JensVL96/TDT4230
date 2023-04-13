@@ -25,6 +25,7 @@
 #include "utilities/glfont.h"
 
 #include "glm/ext.hpp"
+#define __DEBUG__
 
 enum KeyFrameAction {
     BOTTOM, TOP
@@ -32,26 +33,34 @@ enum KeyFrameAction {
 
 #include <timestamps.h>
 
-double mousePositionX = 0;
-double mousePositionZ = 0;
+double padPositionX = 0;
+double padPositionZ = 0;
 
 unsigned int currentKeyFrame = 0;
 unsigned int previousKeyFrame = 0;
 
 SceneNode* rootNode;
 SceneNode* skyBoxNode;
-SceneNode* wallNode;
+SceneNode* padNode;
+// SceneNode* wallNode;
 SceneNode* icicleNode;
+SceneNode* lightNode;
+SceneNode* ballNode;
 
 // These are heap allocated, because they should not be initialised at the start of the program
 sf::SoundBuffer* buffer;
 Gloom::Shader* shader;
 Gloom::Shader* skyboxshader;
+Gloom::Shader* iceshader;
 
 sf::Sound* sound;
 
 const glm::vec3 boxDimensions(180, 90, 90);
-const glm::vec3 wallDimensions(180, 180, 40);
+const glm::vec3 padDimensions(30, 3, 40);
+// const glm::vec3 padDimensions(180, 180, 1);
+
+double ballRadius = 3.0f;
+glm::vec3 ballPosition(0, ballRadius + 60, (boxDimensions.z / 2) - 100);
 
 CommandLineOptions options;
 
@@ -82,13 +91,13 @@ void mouseCallback(GLFWwindow* window, double x, double y) {
     double deltaX = x - lastMouseX;
     double deltaY = y - lastMouseY;
 
-    mousePositionX -= mouseSensitivity * deltaX / windowWidth;
-    mousePositionZ -= mouseSensitivity * deltaY / windowHeight;
+    padPositionX -= mouseSensitivity * deltaX / windowWidth;
+    padPositionZ -= mouseSensitivity * deltaY / windowHeight;
 
-    if (mousePositionX > 1) mousePositionX = 1;
-    if (mousePositionX < 0) mousePositionX = 0;
-    if (mousePositionZ > 1) mousePositionZ = 1;
-    if (mousePositionZ < 0) mousePositionZ = 0;
+    if (padPositionX > 1) padPositionX = 1;
+    if (padPositionX < 0) padPositionX = 0;
+    if (padPositionZ > 1) padPositionZ = 1;
+    if (padPositionZ < 0) padPositionZ = 0;
 
     glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
 }
@@ -98,14 +107,20 @@ struct LightSource {
     //bool a_placeholder_value;
     SceneNode *node;
 };
-LightSource lightSources[3]; /*Put number of light sources you want here*/
+LightSource lightSources[1]; /*Put number of light sources you want here*/
+
+struct IcicleList {
+    //bool a_placeholder_value;
+    SceneNode *node;
+};
+IcicleList Icicles[5]; /*Put number of light sources you want here*/
 
 // Color vectors
 glm::vec3 red = glm::vec3(1.0, 0.0, 0.0);
 glm::vec3 green = glm::vec3(0.0, 1.0, 0.0);
 glm::vec3 blue = glm::vec3(0.0, 0.0, 1.0);
 glm::vec3 white = glm::vec3(1.0, 1.0, 1.0);
-glm::vec3 yellow = glm::vec3(1.0, 1.0, 0.0);
+glm::vec3 yellow = glm::vec3(0.42, 0.39, 0.19);
 
 unsigned int loadCubemap(std::vector<std::string> faces)
 {
@@ -148,6 +163,25 @@ std::vector<std::string> skyboxFaces = {
     "../res/skybox/negz.jpg",
 };
 
+void GLAPIENTRY
+MessageCallback( GLenum source,
+                 GLenum type,
+                 GLuint id,
+                 GLenum severity,
+                 GLsizei length,
+                 const GLchar* message,
+                 const void* userParam )
+{
+    std::cerr << "GL CALLBACK: " <<
+    //"source: " << source <<
+    //" type:" << type <<
+    //" id: " << id <<
+    //" severity: " << severity <<
+    //" length: " << length <<
+    " message: " << message << std::endl;
+
+}
+
 
 void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     buffer = new sf::SoundBuffer();
@@ -168,55 +202,93 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     skyboxshader->makeBasicShader("../res/shaders/skybox.vert", "../res/shaders/skybox.frag");
     skyboxshader->activate();
 
+    iceshader = new Gloom::Shader();
+    iceshader->makeBasicShader("../res/shaders/ice.vert", "../res/shaders/ice.frag");
+    iceshader->activate();
+
+    PNGImage waterDrop = loadPNGFile("../res/textures/waterDrop_col.png");
+    GenTextures(&waterDrop);
+    PNGImage brick_col = loadPNGFile("../res/textures/Brick03_col.png");
+    GenTextures(&brick_col);
+    PNGImage brick_nrm = loadPNGFile("../res/textures/Brick03_nrm.png");
+    GenTextures(&brick_nrm);
 
     // Create meshes
-    Mesh wall = cube(wallDimensions, glm::vec2(30, 40), true);
+    Mesh pad = cube(padDimensions, glm::vec2(30, 40), true);
+    // Mesh wall = cube(padDimensions, glm::vec2(30, 40), true);
     Mesh box = cube(boxDimensions, glm::vec2(90), true, true);
-    Mesh icicle = loadObj("../res/object/istapp.obj");
+    Mesh icicle = loadObj("../res/object/Cone.obj");
+    Mesh sphere = generateSphere(1.0, 40, 40);
 
     // Fill buffers
     unsigned int boxVAO  = generateBuffer(box);
-    unsigned int wallVAO  = generateBuffer(wall);
+    // unsigned int wallVAO  = generateBuffer(wall);
     unsigned int icicleVAO  = generateBuffer(icicle);
-
+    unsigned int padVAO  = generateBuffer(pad);
+    unsigned int sunVAO = generateBuffer(sphere);
 
     // Creates a number of light scene nodes based on the number of light sources
-    int iter = 0;
-    for(LightSource &ls : lightSources) {
-        ls.node = createSceneNode(POINT_LIGHT);
-        ls.node->lightID = iter;
-        iter++;
-    }
+    
+    lightNode = createSceneNode(POINT_LIGHT);
+    lightNode->lightID = 0;
 
     // offset for the light sources
-    lightSources[0].node->position = glm::vec3(0.0, 2.0, 0.0);  // middle of pad
-
-    // Assigns colors to the light nodes
-    lightSources[0].node->color = yellow;
+    lightNode->position      = glm::vec3(0.0, 0.0, ballRadius);  // middle of pad
+    //lightNode->scale         = glm::vec3(100.0, 100.0, 100.0);
+    lightNode->color         = yellow;
 
     // Construct scene
     rootNode = createSceneNode(GEOMETRY);
-
     skyBoxNode  = createSceneNode(TEXTURE_CUBE_MAP);
-    wallNode  = createSceneNode(GEOMETRY);
-    icicleNode = createSceneNode(GEOMETRY);
 
+    padNode = createSceneNode(GEOMETRY);
+    ballNode = createSceneNode(GEOMETRY);
+    // wallNode  = createSceneNode(GEOMETRY);
+    // icicleNode = createSceneNode(GEOMETRY);
+
+    // Puts the Scene nodes in hierarchical order
     rootNode->children.push_back(skyBoxNode);
-    skyBoxNode->children.push_back(wallNode);
-    skyBoxNode->children.push_back(icicleNode);
+    // skyBoxNode->children.push_back(wallNode);
+
+    rootNode->children.push_back(padNode);
+    skyBoxNode->children.push_back(ballNode);
+    // padNode->children.push_back(Icicles[0].node);
+
+    // Puts the light source scene nodes to the different objects
+    ballNode->children.push_back(lightNode);  // Root node if aiming to put in the box
 
     // Assigns the VAO and IDs to the different scene nodes
-    skyBoxNode->vertexArrayObjectID  = boxVAO;
-    skyBoxNode->VAOIndexCount        = box.indices.size();
-    skyBoxNode->textureID            = loadCubemap(skyboxFaces);
-    // skyBoxNode->isSkybox             = true;
+    skyBoxNode->vertexArrayObjectID = boxVAO;
+    skyBoxNode->VAOIndexCount       = box.indices.size();
+    skyBoxNode->textureID           = loadCubemap(skyboxFaces);
+    skyBoxNode->isSkybox            = true;
 
-    wallNode->vertexArrayObjectID  = wallVAO;
-    wallNode->VAOIndexCount        = wall.indices.size();
-    // wallNode->textureID           = ll.ID;
+    padNode->vertexArrayObjectID    = padVAO;
+    padNode->VAOIndexCount          = pad.indices.size();
 
-    icicleNode->vertexArrayObjectID = icicleVAO;
-    icicleNode->VAOIndexCount       = icicle.indices.size();
+    ballNode->vertexArrayObjectID   = sunVAO;
+    ballNode->VAOIndexCount         = sphere.indices.size();
+    ballNode->position              = glm::vec3(-85.0, 30.0, 120.0);
+
+    // wallNode->vertexArrayObjectID  = wallVAO;
+    // wallNode->VAOIndexCount        = wall.indices.size();
+
+    int iter = 0;
+    for(IcicleList &il : Icicles) {
+        il.node = createSceneNode(ICE);
+        padNode->children.push_back(il.node);
+        il.node->vertexArrayObjectID = icicleVAO;
+        il.node->VAOIndexCount       = icicle.indices.size();
+        il.node->rotation            = glm::vec3(M_PI, -M_PI/2, 0.0);
+        il.node->textureID           = brick_col.ID;
+
+        iter++;
+    }
+    Icicles[0].node->position            = glm::vec3(0.0, 150.0, 0.0);
+    Icicles[0].node->scale               = glm::vec3(7.0, 7.0, 7.0);
+
+    Icicles[1].node->position            = glm::vec3(-50.0, 150.0, 0.0);
+    Icicles[1].node->scale               = glm::vec3(7.0, 7.0, 7.0);
     // icicleNode->textureID           = ll.ID;
 
     getTimeDeltaSeconds();
@@ -224,6 +296,13 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     std::cout << fmt::format("Initialized scene with {} SceneNodes.", totalChildren(rootNode)) << std::endl;
 
     std::cout << "Ready. Click to start!" << std::endl;
+
+    #ifdef __DEBUG__
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(MessageCallback, nullptr);
+        glDebugMessageControl(GL_DONT_CARE, GL_DEBUG_TYPE_OTHER , GL_DONT_CARE, 0, nullptr, false);
+    #endif
 }
 
 // Sets the projection as a global variable
@@ -266,7 +345,6 @@ void updateFrame(GLFWwindow* window) {
             gameElapsedTime = debug_startTime;
             hasStarted = true;
         }
-
     } else {
         totalElapsedTime += timeDelta;
         if(hasLost) {
@@ -309,22 +387,38 @@ void updateFrame(GLFWwindow* window) {
             double frameDuration = frameEnd - frameStart;
             double fractionFrameComplete = elapsedTimeInFrame / frameDuration;
 
-            double ballYCoord;
-
             KeyFrameAction currentOrigin = keyFrameDirections.at(currentKeyFrame);
             KeyFrameAction currentDestination = keyFrameDirections.at(currentKeyFrame + 1);
         }
     }
     glm::vec3 cameraPosition = glm::vec3(0, 2, -20);
 
-    skyBoxNode->rotation.y += timeDelta / 10;
+    //skyBoxNode->rotation.y += timeDelta / 10;
+    ballNode->position = ballPosition;
+    ballNode->scale = glm::vec3(ballRadius);
+    ballNode->rotation = { 0, totalElapsedTime*2, 0 };
 
     // Some math to make the camera move in a nice way
-    float lookRotation = -0.6 / (1 + exp(-5 * (mousePositionX-0.5))) + 0.3;
+    float lookRotation = -0.6 / (1 + exp(-5 * (padPositionX-0.5))) + 0.3;
     glm::mat4 cameraTransform =
-                    glm::rotate(0.3f + 0.2f * float(-mousePositionZ*mousePositionZ), glm::vec3(1, 0, 0)) *
+                    glm::rotate(0.3f + 0.2f * float(-padPositionZ*padPositionZ), glm::vec3(1, 0, 0)) *
                     glm::rotate(lookRotation, glm::vec3(0, 1, 0)) *
                     glm::translate(-cameraPosition);
+
+    // Move and rotate various SceneNodes
+    skyBoxNode->position = { 0, -10, -80 };
+
+    // wallNode->position  = {
+    //     boxNode->position.x - (boxDimensions.x/2) + (padDimensions.x/2) + (1 - padPositionX) * (boxDimensions.x - padDimensions.x),
+    //     boxNode->position.y - (boxDimensions.y/2) + (padDimensions.y/2),
+    //     boxNode->position.z - (boxDimensions.z/2) + (padDimensions.z/2) + (1 - padPositionZ) * (boxDimensions.z - padDimensions.z)
+    // };
+
+    padNode->position  = {
+        skyBoxNode->position.x - (boxDimensions.x/2) + (padDimensions.x/2) + (1 - padPositionX) * (boxDimensions.x - padDimensions.x),
+        skyBoxNode->position.y - (boxDimensions.y/2) + (padDimensions.y/2),
+        skyBoxNode->position.z - (boxDimensions.z/2) + (padDimensions.z/2) + (1 - padPositionZ) * (boxDimensions.z - padDimensions.z)
+    };
 
     // Puts together the view and projection for the shader
     glm::mat4 projection = glm::perspective(glm::radians(80.0f), float(windowWidth) / float(windowHeight), 0.1f, 350.f);
@@ -354,6 +448,7 @@ void updateNodeTransformations(SceneNode* node, glm::mat4 transformationThusFar)
         case GEOMETRY_2D: break;
         case NORMAL_MAPPED_GEOMETRY: break;
         case TEXTURE_CUBE_MAP: break;
+        case ICE: break;
     }
 
     for(SceneNode* child : node->children) {
@@ -368,17 +463,15 @@ void renderNode(SceneNode* node) {
     glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
     glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
 
-    for(LightSource &ls : lightSources) {
-        // The light positions in the node update by multiplying the origin
-        // of the coordinate space by the current transformation matrix.
-        glm::vec4 lightPos = ls.node->currentTransformationMatrix * glm::vec4(0.0, 0.0, 0.0, 1.0);
+    // The light positions in the node update by multiplying the origin
+    // of the coordinate space by the current transformation matrix.
+    glm::vec4 lightPos = lightNode->currentTransformationMatrix * glm::vec4(0.0, 0.0, 0.0, 1.0);
 
-        // Finds the lightsources struct from the shader and updates the location and color based on the current rendered light node
-        GLint location = shader->getUniformFromName("LightSources[" + std::to_string(ls.node->lightID) + "].position");
-        GLint color = shader->getUniformFromName("LightSources[" + std::to_string(ls.node->lightID) + "].color");
-        glUniform3fv(location, 1, glm::value_ptr(lightPos));
-        glUniform3fv(color, 1, glm::value_ptr(ls.node->color));
-    }
+    // Finds the lightsources struct from the shader and updates the location and color based on the current rendered light node
+    GLint location = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].position");
+    GLint color = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].color");
+    glUniform3fv(location, 1, glm::value_ptr(lightPos));
+    glUniform3fv(color, 1, glm::value_ptr(lightNode->color));
 
     // Transforming the normal matrix without unnecessary translations and send them to the shader
     glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(node->currentTransformationMatrix)));
@@ -434,6 +527,41 @@ void renderNode(SceneNode* node) {
                 glDepthMask(GL_TRUE);
             }
         break;
+        case ICE: 
+            if(node->vertexArrayObjectID != -1) {
+                iceshader->activate();
+                // Sends the model to the shader
+                glUniformMatrix4fv(3, 1, GL_FALSE, glm::value_ptr(node->currentTransformationMatrix));
+                // Sends the view and projection to the shader
+                glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
+                glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
+
+                // The light positions in the node update by multiplying the origin
+                // of the coordinate space by the current transformation matrix.
+                glm::vec4 lightPos = lightNode->currentTransformationMatrix * glm::vec4(0.0, 0.0, 0.0, 1.0);
+
+                // Finds the lightsources struct from the shader and updates the location and color based on the current rendered light node
+                GLint location = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].position");
+                GLint color = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].color");
+                glUniform3fv(location, 1, glm::value_ptr(lightPos));
+                glUniform3fv(color, 1, glm::value_ptr(lightNode->color));
+
+
+                // Transforming the normal matrix without unnecessary translations and send them to the shader
+                glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(node->currentTransformationMatrix)));
+                glUniformMatrix3fv(8, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+
+                glUniform1i(10, 0); // 3D geometry
+                glUniform1i(11, 0); // not normal mapped
+
+                glBindTextureUnit(3, node->textureID);
+                glBindVertexArray(node->vertexArrayObjectID);
+
+                glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
+                shader->activate();
+            }
+        break;
+        /**/
     }
 
     for(SceneNode* child : node->children) {

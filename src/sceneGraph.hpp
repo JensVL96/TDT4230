@@ -14,7 +14,7 @@
 #include <fstream>
 
 enum SceneNodeType {
-	GEOMETRY, POINT_LIGHT, SPOT_LIGHT, GEOMETRY_2D, NORMAL_MAPPED_GEOMETRY, TEXTURE_CUBE_MAP
+	GEOMETRY, POINT_LIGHT, SPOT_LIGHT, GEOMETRY_2D, NORMAL_MAPPED_GEOMETRY, TEXTURE_CUBE_MAP, ICE
 };
 
 struct SceneNode {
@@ -32,6 +32,8 @@ struct SceneNode {
 		normalMapID = -1;
 		isSkybox = -1;
 
+		texture2 = -1;
+		texture3 = -1;
 	}
 
 	// A list of all children that belong to this node.
@@ -60,6 +62,9 @@ struct SceneNode {
 	int textureID;
 	int normalMapID;
 	int isSkybox;
+
+	int texture2;
+	int texture3;
 
 	// Node type is used to determine how to handle the contents of a node
 	SceneNodeType nodeType;
