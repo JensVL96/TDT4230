@@ -39,19 +39,38 @@ double padPositionZ = 0;
 unsigned int currentKeyFrame = 0;
 unsigned int previousKeyFrame = 0;
 
+// Texture images
+PNGImage sunFlare = loadPNGFile("../res/textures/uni-white2.png");
+PNGImage lensFlare = loadPNGFile("../res/textures/lens-flare.png");
+PNGImage lensBubble = loadPNGFile("../res/textures/flare_bubble.png");
+PNGImage lensBubble2 = loadPNGFile("../res/textures/flare_bubble2.png");
+PNGImage waterDrops = loadPNGFile("../res/textures/blue_dots.png");
+
+// Generate textures
+void genFiles() { 
+    GenTextures(&waterDrops);
+    GenTextures(&sunFlare);
+    GenTextures(&lensFlare);
+    GenTextures(&lensBubble);
+    GenTextures(&lensBubble2);
+}
+
+// Rendered scene nodes
 SceneNode* rootNode;
 SceneNode* skyBoxNode;
 SceneNode* padNode;
-// SceneNode* wallNode;
 SceneNode* icicleNode;
 SceneNode* lightNode;
 SceneNode* ballNode;
+SceneNode* quadNode;
 
 // These are heap allocated, because they should not be initialised at the start of the program
 sf::SoundBuffer* buffer;
 Gloom::Shader* shader;
 Gloom::Shader* skyboxshader;
 Gloom::Shader* iceshader;
+Gloom::Shader* sunShader;
+Gloom::Shader* flare;
 
 sf::Sound* sound;
 
@@ -91,6 +110,8 @@ void mouseCallback(GLFWwindow* window, double x, double y) {
     double deltaX = x - lastMouseX;
     double deltaY = y - lastMouseY;
 
+    //std::cout << windowHeight << windowWidth << std::endl;
+
     padPositionX -= mouseSensitivity * deltaX / windowWidth;
     padPositionZ -= mouseSensitivity * deltaY / windowHeight;
 
@@ -113,7 +134,7 @@ struct IcicleList {
     //bool a_placeholder_value;
     SceneNode *node;
 };
-IcicleList Icicles[5]; /*Put number of light sources you want here*/
+IcicleList Icicles[5]; /*Put number of icicles you want here*/
 
 // Color vectors
 glm::vec3 red = glm::vec3(1.0, 0.0, 0.0);
@@ -122,6 +143,7 @@ glm::vec3 blue = glm::vec3(0.0, 0.0, 1.0);
 glm::vec3 white = glm::vec3(1.0, 1.0, 1.0);
 glm::vec3 yellow = glm::vec3(0.42, 0.39, 0.19);
 
+// Loads and binds given images to a cube map
 unsigned int loadCubemap(std::vector<std::string> faces)
 {
     unsigned int textureID;
@@ -154,6 +176,7 @@ unsigned int loadCubemap(std::vector<std::string> faces)
     return textureID;
 }
 
+// 6 sides of the cube map
 std::vector<std::string> skyboxFaces = {
     "../res/skybox/right.jpg",
     "../res/skybox/left.jpg",
@@ -194,6 +217,7 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetCursorPosCallback(window, mouseCallback);
 
+    // creating the shaders
     shader = new Gloom::Shader();
     shader->makeBasicShader("../res/shaders/simple.vert", "../res/shaders/simple.frag");
     shader->activate();
@@ -206,35 +230,64 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     iceshader->makeBasicShader("../res/shaders/ice.vert", "../res/shaders/ice.frag");
     iceshader->activate();
 
-    PNGImage waterDrop = loadPNGFile("../res/textures/waterDrop_col.png");
-    GenTextures(&waterDrop);
-    PNGImage brick_col = loadPNGFile("../res/textures/Brick03_col.png");
-    GenTextures(&brick_col);
-    PNGImage brick_nrm = loadPNGFile("../res/textures/Brick03_nrm.png");
-    GenTextures(&brick_nrm);
+    sunShader = new Gloom::Shader();
+    sunShader->makeBasicShader("../res/shaders/sun.vert", "../res/shaders/sun.frag");
+    sunShader->activate();
+
+    flare = new Gloom::Shader();
+    flare->makeBasicShader("../res/shaders/flare.vert", "../res/shaders/flare.frag");
+    flare->activate();
+
+    // loading the textures
+    genFiles();
 
     // Create meshes
     Mesh pad = cube(padDimensions, glm::vec2(30, 40), true);
-    // Mesh wall = cube(padDimensions, glm::vec2(30, 40), true);
     Mesh box = cube(boxDimensions, glm::vec2(90), true, true);
     Mesh icicle = loadObj("../res/object/Cone.obj");
     Mesh sphere = generateSphere(1.0, 40, 40);
 
+    // Redefines the normals from the cone to a cylinder around 
+    for (int i = 0; i < icicle.vertices.size(); i++) {
+        auto x = icicle.normals[i].x;
+        auto y = icicle.vertices[i].y;
+        auto z = icicle.normals[i].z;
+        //std::cout << atan2(x-0, z-0) /(2 * M_PI) + 0.5 << ", " << y << std::endl;
+        icicle.textureCoordinates[atan2(x, z) / (2 * M_PI) + 0.5, y / 24.0];
+    }
+
+    // Creates the mesh for a sun sprite
+    Mesh quad;
+    quad.vertices = {
+        {-1, -1, 0},
+        { 1, -1, 0},
+        { 1,  1, 0},
+        {-1,  1, 0},
+    };
+    quad.textureCoordinates = {
+        {0, 0},
+        {1, 0},
+        {1, 1},
+        {0, 1},
+    };
+    quad.indices = {
+        0, 1, 2,
+        0, 2, 3,
+    };
+
+
+
     // Fill buffers
     unsigned int boxVAO  = generateBuffer(box);
-    // unsigned int wallVAO  = generateBuffer(wall);
     unsigned int icicleVAO  = generateBuffer(icicle);
     unsigned int padVAO  = generateBuffer(pad);
     unsigned int sunVAO = generateBuffer(sphere);
+    unsigned int quadVAO = generateBuffer(quad);
 
-    // Creates a number of light scene nodes based on the number of light sources
-    
+    // Creates the light node for the sun
     lightNode = createSceneNode(POINT_LIGHT);
     lightNode->lightID = 0;
-
-    // offset for the light sources
-    lightNode->position      = glm::vec3(0.0, 0.0, ballRadius);  // middle of pad
-    //lightNode->scale         = glm::vec3(100.0, 100.0, 100.0);
+    lightNode->position      = glm::vec3(0.0, 0.0, ballRadius);
     lightNode->color         = yellow;
 
     // Construct scene
@@ -242,20 +295,18 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     skyBoxNode  = createSceneNode(TEXTURE_CUBE_MAP);
 
     padNode = createSceneNode(GEOMETRY);
-    ballNode = createSceneNode(GEOMETRY);
-    // wallNode  = createSceneNode(GEOMETRY);
-    // icicleNode = createSceneNode(GEOMETRY);
+    ballNode = createSceneNode(POINT_LIGHT);
+
+    quadNode = createSceneNode(SPOT_LIGHT);
+    quadNode->vertexArrayObjectID = quadVAO;
+    quadNode->VAOIndexCount = 6;
 
     // Puts the Scene nodes in hierarchical order
     rootNode->children.push_back(skyBoxNode);
-    // skyBoxNode->children.push_back(wallNode);
-
     rootNode->children.push_back(padNode);
     skyBoxNode->children.push_back(ballNode);
-    // padNode->children.push_back(Icicles[0].node);
-
-    // Puts the light source scene nodes to the different objects
-    ballNode->children.push_back(lightNode);  // Root node if aiming to put in the box
+    ballNode->children.push_back(lightNode);
+    rootNode->children.push_back(quadNode);
 
     // Assigns the VAO and IDs to the different scene nodes
     skyBoxNode->vertexArrayObjectID = boxVAO;
@@ -263,16 +314,15 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     skyBoxNode->textureID           = loadCubemap(skyboxFaces);
     skyBoxNode->isSkybox            = true;
 
-    padNode->vertexArrayObjectID    = padVAO;
+    padNode->vertexArrayObjectID    = -1; //padVAO;
     padNode->VAOIndexCount          = pad.indices.size();
 
     ballNode->vertexArrayObjectID   = sunVAO;
     ballNode->VAOIndexCount         = sphere.indices.size();
     ballNode->position              = glm::vec3(-85.0, 30.0, 120.0);
+    ballNode->color                = white;
 
-    // wallNode->vertexArrayObjectID  = wallVAO;
-    // wallNode->VAOIndexCount        = wall.indices.size();
-
+    // creates multiple icicle nodes
     int iter = 0;
     for(IcicleList &il : Icicles) {
         il.node = createSceneNode(ICE);
@@ -280,16 +330,25 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
         il.node->vertexArrayObjectID = icicleVAO;
         il.node->VAOIndexCount       = icicle.indices.size();
         il.node->rotation            = glm::vec3(M_PI, -M_PI/2, 0.0);
-        il.node->textureID           = brick_col.ID;
+        il.node->textureID           = waterDrops.ID;
 
         iter++;
     }
-    Icicles[0].node->position            = glm::vec3(0.0, 150.0, 0.0);
-    Icicles[0].node->scale               = glm::vec3(7.0, 7.0, 7.0);
+    // Defines the icicle coordinates and size
+    Icicles[0].node->position            = glm::vec3(27.0, 150.0, 0.0);
+    Icicles[0].node->scale               = glm::vec3(7.0, 6.3, 7.0);
 
-    Icicles[1].node->position            = glm::vec3(-50.0, 150.0, 0.0);
-    Icicles[1].node->scale               = glm::vec3(7.0, 7.0, 7.0);
-    // icicleNode->textureID           = ll.ID;
+    Icicles[1].node->position            = glm::vec3(13.0, 150.0, 0.0);
+    Icicles[1].node->scale               = glm::vec3(7.0, 6.0, 7.0);
+
+    Icicles[2].node->position            = glm::vec3(0.0, 150.0, 0.0);
+    Icicles[2].node->scale               = glm::vec3(7.0, 7.0, 7.0);
+
+    Icicles[3].node->position            = glm::vec3(-10.0, 150.0, 0.0);
+    Icicles[3].node->scale               = glm::vec3(8.0, 5.0, 7.0);
+
+    Icicles[4].node->position            = glm::vec3(-23.0, 150.0, 0.0);
+    Icicles[4].node->scale               = glm::vec3(7.0, 5.0, 7.0);
 
     getTimeDeltaSeconds();
 
@@ -309,10 +368,13 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
 glm::mat4 P;
 glm::mat4 V;
 
+float epoch = 0;
+
 void updateFrame(GLFWwindow* window) {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     double timeDelta = getTimeDeltaSeconds();
+    epoch += timeDelta;
 
     const float cameraWallOffset = 30; // Arbitrary addition to prevent ball from going too much into camera
 
@@ -495,8 +557,58 @@ void renderNode(SceneNode* node) {
                 glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
             }
             break;
-        case SPOT_LIGHT: break;
-        case POINT_LIGHT: break;
+        case SPOT_LIGHT: 
+            if(node->vertexArrayObjectID != -1) {
+                flare->activate();
+                // glDepthMask(GL_FALSE);
+                glm::mat4 MVP = P*V*ballNode->currentTransformationMatrix;
+                glm::vec4 pos = MVP * glm::vec4(0, 0, 0, 1);
+                pos /= pos.w;
+                float scale = 0.1;
+                float aspect = 16.0/9.0;
+
+                //auto UV = (MVP * sunNode).xy()
+                //draw billboard with uv
+                //for t in [0, 0.2, 0.4, 0.8]
+                //-UV * (t*2-1)
+
+                // lensflare, depth disabled
+                int amount = 5;
+                float t[amount] = {0.0, 0.15, 0.2, 0.35, 0.45};
+
+
+                int ID[amount] = {sunFlare.ID, lensBubble.ID, lensBubble2.ID, lensBubble.ID, lensBubble2.ID};
+
+                // Sends the model to the shader
+                for (int i = 0; i < amount; i++) {
+                    pos = -pos * (t[i] *2-1);
+                    glUniform3f(0, pos.x, pos.y, pos.z);
+                    glUniform2f(1, scale, scale*aspect);
+
+                    glBindTextureUnit(0, ID[i]);
+                    glBindVertexArray(quadNode->vertexArrayObjectID);
+                    glDrawElements(GL_TRIANGLES, quadNode->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
+                }
+                // glDepthMask(GL_TRUE);
+                shader->activate();
+            }
+            break;
+        case POINT_LIGHT: 
+            if(node->vertexArrayObjectID != -1) {
+                sunShader->activate();
+                // Sends the model to the shader
+                glUniformMatrix4fv(3, 1, GL_FALSE, glm::value_ptr(node->currentTransformationMatrix));
+                // Sends the view and projection to the shader
+                glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
+                glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
+
+                // unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+                // glDrawBuffers(2, attachments);
+                glBindVertexArray(node->vertexArrayObjectID);
+                glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
+                shader->activate();
+            }
+        break;
         case NORMAL_MAPPED_GEOMETRY:
             if(node->vertexArrayObjectID != -1) {
                 glUniform1i(10, 0); // 3D geometry
@@ -517,8 +629,6 @@ void renderNode(SceneNode* node) {
                 glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
                 glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
 
-                glUniform1i(10, 0); // 3D geometry
-                glUniform1i(11, 0); // normal mapped
                 glBindVertexArray(node->vertexArrayObjectID);
                 glBindTextureUnit(2, node->textureID);
                 //glUniform1i(12, 1);
@@ -541,20 +651,21 @@ void renderNode(SceneNode* node) {
                 glm::vec4 lightPos = lightNode->currentTransformationMatrix * glm::vec4(0.0, 0.0, 0.0, 1.0);
 
                 // Finds the lightsources struct from the shader and updates the location and color based on the current rendered light node
-                GLint location = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].position");
-                GLint color = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].color");
-                glUniform3fv(location, 1, glm::value_ptr(lightPos));
+                GLint location = iceshader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].position");
+                GLint color = iceshader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].color");
+                glUniform3fv(location, 1, glm::value_ptr(glm::vec3(lightPos)));
                 glUniform3fv(color, 1, glm::value_ptr(lightNode->color));
 
+                glUniform1f(iceshader->getUniformFromName("epoch"), epoch);
 
                 // Transforming the normal matrix without unnecessary translations and send them to the shader
                 glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(node->currentTransformationMatrix)));
                 glUniformMatrix3fv(8, 1, GL_FALSE, glm::value_ptr(normalMatrix));
 
                 glUniform1i(10, 0); // 3D geometry
-                glUniform1i(11, 0); // not normal mapped
+                glUniform1i(11, 1); // not normal mapped
 
-                glBindTextureUnit(3, node->textureID);
+                glBindTextureUnit(0, node->textureID);
                 glBindVertexArray(node->vertexArrayObjectID);
 
                 glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
@@ -575,4 +686,10 @@ void renderFrame(GLFWwindow* window) {
     glViewport(0, 0, windowWidth, windowHeight);
 
     renderNode(rootNode);
+
 }
+
+// TODO:
+    // lensflare
+    // raindrop texture
+    // multiple icicles
