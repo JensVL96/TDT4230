@@ -41,7 +41,6 @@ unsigned int previousKeyFrame = 0;
 
 // Texture images
 PNGImage sunFlare = loadPNGFile("../res/textures/uni-white2.png");
-PNGImage lensFlare = loadPNGFile("../res/textures/lens-flare.png");
 PNGImage lensBubble = loadPNGFile("../res/textures/flare_bubble.png");
 PNGImage lensBubble2 = loadPNGFile("../res/textures/flare_bubble2.png");
 PNGImage waterDrops = loadPNGFile("../res/textures/blue_dots.png");
@@ -50,7 +49,6 @@ PNGImage waterDrops = loadPNGFile("../res/textures/blue_dots.png");
 void genFiles() { 
     GenTextures(&waterDrops);
     GenTextures(&sunFlare);
-    GenTextures(&lensFlare);
     GenTextures(&lensBubble);
     GenTextures(&lensBubble2);
 }
@@ -69,7 +67,6 @@ sf::SoundBuffer* buffer;
 Gloom::Shader* shader;
 Gloom::Shader* skyboxshader;
 Gloom::Shader* iceshader;
-Gloom::Shader* sunShader;
 Gloom::Shader* flare;
 
 sf::Sound* sound;
@@ -225,10 +222,6 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     iceshader->makeBasicShader("../res/shaders/ice.vert", "../res/shaders/ice.frag");
     iceshader->activate();
 
-    sunShader = new Gloom::Shader();
-    sunShader->makeBasicShader("../res/shaders/sun.vert", "../res/shaders/sun.frag");
-    sunShader->activate();
-
     flare = new Gloom::Shader();
     flare->makeBasicShader("../res/shaders/flare.vert", "../res/shaders/flare.frag");
     flare->activate();
@@ -286,7 +279,7 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     lightNode->color         = yellow;
 
     // Construct scene
-    rootNode = createSceneNode(GEOMETRY);
+    rootNode = createSceneNode(ICE);
     skyBoxNode  = createSceneNode(TEXTURE_CUBE_MAP);
 
     padNode = createSceneNode(GEOMETRY);
@@ -464,12 +457,6 @@ void updateFrame(GLFWwindow* window) {
     // Move and rotate various SceneNodes
     skyBoxNode->position = { 0, -10, -80 };
 
-    // wallNode->position  = {
-    //     boxNode->position.x - (boxDimensions.x/2) + (padDimensions.x/2) + (1 - padPositionX) * (boxDimensions.x - padDimensions.x),
-    //     boxNode->position.y - (boxDimensions.y/2) + (padDimensions.y/2),
-    //     boxNode->position.z - (boxDimensions.z/2) + (padDimensions.z/2) + (1 - padPositionZ) * (boxDimensions.z - padDimensions.z)
-    // };
-
     padNode->position  = {
         skyBoxNode->position.x - (boxDimensions.x/2) + (padDimensions.x/2) + (1 - padPositionX) * (boxDimensions.x - padDimensions.x),
         skyBoxNode->position.y - (boxDimensions.y/2) + (padDimensions.y/2),
@@ -513,21 +500,10 @@ void updateNodeTransformations(SceneNode* node, glm::mat4 transformationThusFar)
 }
 
 void renderNode(SceneNode* node) {
-    // Sends the model to the shader
+    // Sends the model, view and projection to the shader
     glUniformMatrix4fv(3, 1, GL_FALSE, glm::value_ptr(node->currentTransformationMatrix));
-    // Sends the view and projection to the shader
     glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
     glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
-
-    // The light positions in the node update by multiplying the origin
-    // of the coordinate space by the current transformation matrix.
-    glm::vec4 lightPos = lightNode->currentTransformationMatrix * glm::vec4(0.0, 0.0, 0.0, 1.0);
-
-    // Finds the lightsources struct from the shader and updates the location and color based on the current rendered light node
-    GLint location = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].position");
-    GLint color = shader->getUniformFromName("LightSources[" + std::to_string(lightNode->lightID) + "].color");
-    glUniform3fv(location, 1, glm::value_ptr(lightPos));
-    glUniform3fv(color, 1, glm::value_ptr(lightNode->color));
 
     // Transforming the normal matrix without unnecessary translations and send them to the shader
     glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(node->currentTransformationMatrix)));
@@ -554,79 +530,48 @@ void renderNode(SceneNode* node) {
         case SPOT_LIGHT: 
             if(node->vertexArrayObjectID != -1) {
                 flare->activate();
-                // glDepthMask(GL_FALSE);
+                // Assigns the positioning given the MVP
                 glm::mat4 MVP = P*V*ballNode->currentTransformationMatrix;
                 glm::vec4 pos = MVP * glm::vec4(0, 0, 0, 1);
                 pos /= pos.w;
+
+                // Sets the scale and aspect ratio for the sun sprite images
                 float scale = 0.1;
                 float aspect = 16.0/9.0;
 
-                //auto UV = (MVP * sunNode).xy()
-                //draw billboard with uv
-                //for t in [0, 0.2, 0.4, 0.8]
-                //-UV * (t*2-1)
-
-                // lensflare, depth disabled
+                // Adjustable number of lensflare sprites and their positioning along the axis from the sun to origo
                 int amount = 5;
+                int ID[amount] = {sunFlare.ID, lensBubble.ID, lensBubble2.ID, lensBubble.ID, lensBubble2.ID};
                 float t[amount] = {0.0, 0.15, 0.2, 0.35, 0.45};
 
-
-                int ID[amount] = {sunFlare.ID, lensBubble.ID, lensBubble2.ID, lensBubble.ID, lensBubble2.ID};
-
-                // Sends the model to the shader
+                // Finds the postions along the axis from the sun to origo using the t array
                 for (int i = 0; i < amount; i++) {
                     pos = -pos * (t[i] *2-1);
                     glUniform3f(0, pos.x, pos.y, pos.z);
                     glUniform2f(1, scale, scale*aspect);
 
+                    // Binds the VAO and the separate textures to the shader
                     glBindTextureUnit(0, ID[i]);
                     glBindVertexArray(quadNode->vertexArrayObjectID);
                     glDrawElements(GL_TRIANGLES, quadNode->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
                 }
-                // glDepthMask(GL_TRUE);
                 shader->activate();
             }
             break;
-        case POINT_LIGHT: 
-        break;
-            if(node->vertexArrayObjectID != -1) {
-                sunShader->activate();
-                // Sends the model to the shader
-                glUniformMatrix4fv(3, 1, GL_FALSE, glm::value_ptr(node->currentTransformationMatrix));
-                // Sends the view and projection to the shader
-                glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
-                glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
-
-                // unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
-                // glDrawBuffers(2, attachments);
-                glBindVertexArray(node->vertexArrayObjectID);
-                glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
-                shader->activate();
-            }
-        break;
-        case NORMAL_MAPPED_GEOMETRY:
-            if(node->vertexArrayObjectID != -1) {
-                glUniform1i(10, 0); // 3D geometry
-                glUniform1i(11, 1); // normal mapped
-                glBindTextureUnit(0, node->textureID);
-                glBindTextureUnit(1, node->normalMapID);
-                glBindVertexArray(node->vertexArrayObjectID);
-                glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
-            }
-            break;
+        case POINT_LIGHT: break;
+        case NORMAL_MAPPED_GEOMETRY: break;
         case TEXTURE_CUBE_MAP: 
             if(node->vertexArrayObjectID != -1) {
                 skyboxshader->activate();
                 glDepthMask(GL_FALSE);
-                // Sends the model to the shader
+                // Sends the model, view and projection to the shader
                 glUniformMatrix3fv(3, 1, GL_FALSE, glm::value_ptr(glm::mat3(node->currentTransformationMatrix)));
-                // Sends the view and projection to the shader
                 glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
                 glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
 
+                // Binds the VAO and the cubemap texture to the shader
                 glBindVertexArray(node->vertexArrayObjectID);
                 glBindTextureUnit(2, node->textureID);
-                //glUniform1i(12, 1);
                 glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
                 shader->activate();
                 glDepthMask(GL_TRUE);
@@ -635,14 +580,12 @@ void renderNode(SceneNode* node) {
         case ICE: 
             if(node->vertexArrayObjectID != -1) {
                 iceshader->activate();
-                // Sends the model to the shader
+                // Sends the model, view and projection to the shader
                 glUniformMatrix4fv(3, 1, GL_FALSE, glm::value_ptr(node->currentTransformationMatrix));
-                // Sends the view and projection to the shader
                 glUniformMatrix4fv(4, 1, GL_FALSE, glm::value_ptr(V));
                 glUniformMatrix4fv(5, 1, GL_FALSE, glm::value_ptr(P));
 
-                // The light positions in the node update by multiplying the origin
-                // of the coordinate space by the current transformation matrix.
+                // The light positions in the modelview
                 glm::vec4 lightPos = lightNode->currentTransformationMatrix * glm::vec4(0.0, 0.0, 0.0, 1.0);
 
                 // Finds the lightsources struct from the shader and updates the location and color based on the current rendered light node
@@ -651,6 +594,7 @@ void renderNode(SceneNode* node) {
                 glUniform3fv(location, 1, glm::value_ptr(glm::vec3(lightPos)));
                 glUniform3fv(color, 1, glm::value_ptr(lightNode->color));
 
+                // Sends a time variable as well to transform the texture.
                 glUniform1f(iceshader->getUniformFromName("epoch"), epoch);
 
                 // Transforming the normal matrix without unnecessary translations and send them to the shader
@@ -659,15 +603,13 @@ void renderNode(SceneNode* node) {
 
                 glUniform1i(10, 0); // 3D geometry
                 glUniform1i(11, 1); // not normal mapped
-
+                // Binds the VAO and the cubemap texture to the shader
                 glBindTextureUnit(0, node->textureID);
                 glBindVertexArray(node->vertexArrayObjectID);
-
                 glDrawElements(GL_TRIANGLES, node->VAOIndexCount, GL_UNSIGNED_INT, nullptr);
                 shader->activate();
             }
         break;
-        /**/
     }
 
     for(SceneNode* child : node->children) {
@@ -681,10 +623,4 @@ void renderFrame(GLFWwindow* window) {
     glViewport(0, 0, windowWidth, windowHeight);
 
     renderNode(rootNode);
-
 }
-
-// TODO:
-    // lensflare
-    // raindrop texture
-    // multiple icicles

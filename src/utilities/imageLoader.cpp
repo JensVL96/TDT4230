@@ -55,27 +55,3 @@ void GenTextures(PNGImage *image) {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels.data());
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
-
-void genLight() {
-	unsigned int hdrFBO;
-	glGenFramebuffers(1, &hdrFBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
-
-	unsigned int colorBuffers[2];
-	glGenTextures(2, colorBuffers);
-
-	for (int i = 0; i < 2; i++) {
-		glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
-		glTexImage2D(
-			GL_TEXTURE_2D, 0, GL_RGBA16F, 1366, 768, 0, GL_RGBA, GL_FLOAT, NULL
-		);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		// attach texture to framebuffer
-		glFramebufferTexture2D(
-			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorBuffers[i], 0
-		);
-	}
-}
