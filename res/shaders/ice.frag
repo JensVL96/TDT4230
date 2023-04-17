@@ -30,14 +30,14 @@ vec4 diffuseTextureColor = texture(waterDrop, textureCoordinates + vec2(epoch * 
 vec3 ambient = vec3(0.1);
 vec3 diffuse = (hasTexture != 0) ? diffuseTextureColor.xyz : vec3(1.0);;
 vec3 specular = vec3(1.0);
-vec3 emission = vec3(0.0);
+vec3 emission = vec3(0.1);
 
 
 // Default camera angle
 vec3 cameraPos = vec3(0.0);
 
 // Variables for light and shadows
-float shininess = 64.0;
+float shininess = 32.0;
 float ratio = 1.00 / 1.309;
 float alpha = 1.0;
 
@@ -76,20 +76,15 @@ void main()
         vec3 reflected = reflect(-lightDirection, NN);
         float specularIntensity = pow(max(dot(reflected, specularDirection), 0.0), shininess);
 
-        
-        // colorOut = vec4(tempColor, 1.0);
-
-        // Applies diffuse, specular, light intensity and soft/ hard light when it doesn't apply shadows
-        
-        finalColor += diffuse;// * diffuseIntensity * L;
+        // Adding texture and specular ligthing
+        finalColor += diffuse;//
         finalColor += specular * specularIntensity * L;
-        alpha = diffuse.r; // TODO: Set to diffuse when transparent water drop
+        alpha = diffuse.r; //same as waterdrop
     }
 
     // refraction
     vec3 view = normalize(worldPos - cameraPos);
     vec3 refraction = refract(view, normalize(normal), ratio);
-    //finalColor += texture(cubemap, refraction).rgb;
     finalColor = texture(cubemap, refraction).rgb * (1-alpha) + finalColor*alpha;
 
     // Adds extra components to the final ligth color
@@ -97,8 +92,5 @@ void main()
     finalColor += emission;
     finalColor += dither(textureCoordinates);   // Noice
 
-    // Resulting color
     colorOut = vec4(finalColor, 1.0);
-    // colorOut.rgba = vec4(texture(cubemap, refraction).rgb, 1.0);
-    //colorOut = vec4(NN * 0.5 + 0.5 , 1.0);
 }

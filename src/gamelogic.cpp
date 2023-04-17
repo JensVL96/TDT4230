@@ -151,18 +151,13 @@ unsigned int loadCubemap(std::vector<std::string> faces)
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
     int width, height, nrChannels;
-    for (unsigned int i = 0; i < faces.size(); i++)
-    {
+    for (unsigned int i = 0; i < faces.size(); i++) {
         unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-        if (data)
-        {
+        if (data) {
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
-                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
-            );
+                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
-        }
-        else
-        {
+        } else {
             std::cout << "Cubemap tex failed to load at path: " << faces[i] << std::endl;
             stbi_image_free(data);
         }
@@ -320,7 +315,7 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
     ballNode->vertexArrayObjectID   = sunVAO;
     ballNode->VAOIndexCount         = sphere.indices.size();
     ballNode->position              = glm::vec3(-85.0, 30.0, 120.0);
-    ballNode->color                = white;
+    ballNode->color                 = white;
 
     // creates multiple icicle nodes
     int iter = 0;
@@ -331,7 +326,6 @@ void initGame(GLFWwindow* window, CommandLineOptions gameOptions) {
         il.node->VAOIndexCount       = icicle.indices.size();
         il.node->rotation            = glm::vec3(M_PI, -M_PI/2, 0.0);
         il.node->textureID           = waterDrops.ID;
-
         iter++;
     }
     // Defines the icicle coordinates and size
@@ -594,6 +588,7 @@ void renderNode(SceneNode* node) {
             }
             break;
         case POINT_LIGHT: 
+        break;
             if(node->vertexArrayObjectID != -1) {
                 sunShader->activate();
                 // Sends the model to the shader
